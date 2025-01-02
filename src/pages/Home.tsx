@@ -16,7 +16,7 @@ const featuredProjects = [
     category: "Machine Learning",
     fundingProgress: 60,
     imageUrl:
-      "https://media.licdn.com/dms/image/v2/D4D12AQGeQPqQLh_PUQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1698198023609?e=2147483647&v=beta&t=5uG2Lz8B5jdnLh0kZOPyYSOYWdyHrxlWsOK-bgscDpM",
+      "https://res.cloudinary.com/dswrgvg3c/image/upload/v1735401767/ngxbeta9rhlnoqs8imeu.jpg",
   },
   {
     id: 3,
@@ -265,12 +265,7 @@ const App = () => {
             <p className="text-xl mb-8">
               Join thousands of creators and innovators on our platform
             </p>
-            <a
-              href="/start-project"
-              className="bg-white text-indigo-800 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition duration-300"
-            >
-              Start Your Project
-            </a>
+            
           </div>
         </section>
       </main>

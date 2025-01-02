@@ -18,7 +18,7 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    fundingGoal: { type: Number, required: true },
+    fundingGoal: { type: String, required: true },
     currentFunding: { type: Number, default: 0 },
   },
   {

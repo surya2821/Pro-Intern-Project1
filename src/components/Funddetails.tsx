@@ -1,76 +1,28 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-const CardSpotlightDemo = () => {
-  return (
-    <div className="h-96 w-96 p-6 bg-gradient-to-r from-indigo-600 to-blue-500 rounded-lg shadow-lg">
-      <p className="text-xl font-bold text-white relative z-20 mt-2">
-        Authentication Steps
-      </p>
-      <div className="text-neutral-200 mt-4 relative z-20">
-        Follow these steps to secure your account:
-        <ul className="list-none mt-2">
-          <Step title="Enter your email address" />
-          <Step title="Create a strong password" />
-          <Step title="Set up two-factor authentication" />
-          <Step title="Verify your identity" />
-        </ul>
-      </div>
-      <p className="text-neutral-300 mt-4 relative z-20 text-sm">
-        Ensuring your account is properly secured helps protect your personal
-        information and data.
-      </p>
-    </div>
-  );
-};
-
-const Step = ({ title }: { title: string }) => {
-  return (
-    <li className="flex gap-2 items-start mb-2">
-      <CheckIcon />
-      <p className="text-white">{title}</p>
-    </li>
-  );
-};
-
-const CheckIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="h-4 w-4 text-blue-300 mt-1 flex-shrink-0"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path
-        d="M12 2c-.218 0 -.432 .002 -.642 .005l-.616 .017l-.299 .013l-.579 .034l-.553 .046c-4.785 .464 -6.732 2.411 -7.196 7.196l-.046 .553l-.034 .579c-.005 .098 -.01 .198 -.013 .299l-.017 .616l-.004 .318l-.001 .324c0 .218 .002 .432 .005 .642l.017 .616l.013 .299l.034 .579l.046 .553c.464 4.785 2.411 6.732 7.196 7.196l.553 .046l.579 .034c.098 .005 .198 .01 .299 .013l.616 .017l.642 .005l.642 -.005l.616 -.017l.299 -.013l.579 -.034l.553 -.046c4.785 -.464 6.732 -2.411 7.196 -7.196l.046 -.553l.034 -.579c.005 -.098 .01 -.198 .013 -.299l.017 -.616l.005 -.642l-.005 -.642l-.017 -.616l-.013 -.299l-.034 -.579l-.046 -.553c-.464 -4.785 -2.411 -6.732 -7.196 -7.196l-.553 -.046l-.579 -.034a28.058 28.058 0 0 0 -.299 -.013l-.616 -.017l-.318 -.004l-.324 -.001zm2.293 7.293a1 1 0 0 1 1.497 1.32l-.083 .094l-4 4a1 1 0 0 1 -1.32 .083l-.094 -.083l-2 -2a1 1 0 0 1 1.32 -1.497l.094 .083l1.293 1.292l3.293 -3.292z"
-      />
-    </svg>
-  );
-};
+import { useNavigate } from 'react-router-dom';
 
 const UserDetailsForm: React.FC = () => {
- const navigate = useNavigate();
-  const sendFund = async (fullName: string, email: string, phone: string, address: string, city: string, country: string) => {
+  const navigate = useNavigate();
+  
+  const sendFund = async (fullName: string, email: string, phone: string, address: string, city: string, country: string, fundamount: number) => {
     try {
       const response = await fetch('http://localhost:5000/api/fundy/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, email, phone, address, city, country }),
+        body: JSON.stringify({ fullName, email, phone, address, city, country, fundamount }),
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'from error');
-      else{
+      if (!response.ok) throw new Error(data.message || 'Error in form submission');
+      else {
         navigate('/home');
       }
 
     } catch (error) {
-      throw error; // You can pass this error to your component for user-friendly messages
+      console.log(error);
+      // You can display a user-friendly error message here
     }
   };
-
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -79,6 +31,7 @@ const UserDetailsForm: React.FC = () => {
     address: "",
     city: "",
     country: "",
+    fundamount: "",
     agreeToTerms: false,
   });
 
@@ -103,19 +56,27 @@ const UserDetailsForm: React.FC = () => {
     console.log("Form submitted with data:", formData);
 
     try {
-      await sendFund(formData.fullName, formData.email, formData.phone, formData.address,formData.city,formData.country);
+      // Convert fundamount to a number for the API call
+      const fundamount = parseFloat(formData.fundamount);
+
+      // Validate fundamount is a valid number
+      if (isNaN(fundamount) || fundamount <= 0) {
+        alert("Please enter a valid amount in rupees.");
+        return;
+      }
+
+      await sendFund(formData.fullName, formData.email, formData.phone, formData.address, formData.city, formData.country, fundamount);
 
     } catch (err) {
       console.log(err)
-    } 
-
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-bold text-center text-indigo-800 mb-6">Enter Your Details</h2>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="fullName" className="block text-lg font-semibold text-gray-700">Full Name</label>
@@ -197,6 +158,20 @@ const UserDetailsForm: React.FC = () => {
               onChange={handleChange}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
               placeholder="Enter your country"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="fundamount" className="block text-lg font-semibold text-gray-700">Fund Amount (in Rupees)</label>
+            <input
+              type="number"
+              id="fundamount"
+              name="fundamount"
+              value={formData.fundamount}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              placeholder="Enter fund amount"
               required
             />
           </div>

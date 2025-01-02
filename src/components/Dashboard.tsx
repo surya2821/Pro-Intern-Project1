@@ -22,15 +22,18 @@ const DashboardPage = () => {
       try {
         const response = await axios.get("http://localhost:5000/api/dashboard");
         setDashboardData(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to load dashboard data.");
+      } catch {
+        const errorMessage = "Failed to load dashboard data.";
+        console.error(errorMessage); // Explicitly use the error
+        setError(errorMessage);
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchDashboardData();
   }, []);
+  
 
   if (loading) {
     return <div className="text-center mt-10">Loading Dashboard...</div>;

@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import fundyRoutes from "./routes/fundy.js";
 import dashboardRoutes from "./routes/DashboardRoutes.js";
+import projectroutes from "./routes/projectroutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/fundy", fundyRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/",projectroutes)
 
 // Error handling
 app.use(errorHandler);

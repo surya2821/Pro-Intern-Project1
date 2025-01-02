@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User } from "lucide-react";
+//import { User } from "lucide-react";
 
 // Sample user data for login state
 const user = { name: "John Doe", isLoggedIn: true };
 
 const featuredProjects = [
   { id: 1, title: "Hospital Management System", category: "Hospital Management", fundingProgress: 75, imageUrl: "https://media.istockphoto.com/id/1903423742/photo/medical-team-meeting.webp?a=1&b=1&s=612x612&w=0&k=20&c=eI6bQ--x2NBPLM4SAuWDpZ1-HcOoUWj-ND04wX7erdA=" },
-  { id: 2, title: "AI-Chatbot ML Project", category: "Machine Learning", fundingProgress: 60, imageUrl: "https://media.licdn.com/dms/image/v2/D4D12AQGeQPqQLh_PUQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1698198023609?e=2147483647&v=beta&t=5uG2Lz8B5jdnLh0kZOPyYSOYWdyHrxlWsOK-bgscDpM" },
+  { id: 2, title: "AI-Chatbot ML Project", category: "Machine Learning", fundingProgress: 60, imageUrl: "https://img.freepik.com/free-vector/flat-woman-chatting-with-chatbot-communicating-ai-robot-assistant_88138-959.jpg?semt=ais_hybrid" },
   { id: 3, title: "Sustainable Urban Garden Kit", category: "Data Science", fundingProgress: 40, imageUrl: "https://platform3solutions.com/wp-content/uploads/2024/02/Archived-data-for-analytics.webp" },
   { id: 3, title: "Sustainable Urban Garden Kit", category: "Data Science", fundingProgress: 40, imageUrl: "https://platform3solutions.com/wp-content/uploads/2024/02/Archived-data-for-analytics.webp" },
   { id: 3, title: "Sustainable Urban Garden Kit", category: "Data Science", fundingProgress: 40, imageUrl: "https://platform3solutions.com/wp-content/uploads/2024/02/Archived-data-for-analytics.webp" },
@@ -171,7 +171,6 @@ const CombinedApp: React.FC = () => {
             href="/start-project"
             className="bg-white text-indigo-800 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition duration-300"
           >
-            Start Your Project
           </a>
         </div>
       </section>

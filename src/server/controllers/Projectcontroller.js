@@ -1,31 +1,26 @@
-import Project from '../models/Project'; // Import the Project model
+import Project from '../models/Project.js'; // Import the Project model
 import path from 'path';
 
 // Add a new project
-export const addProject = async (req, res) => {
-  try {
-    const { projectName, description, techStack } = req.body;
-    const image = req.file ? req.file.path : null; // The image file path from Multer
+export const addProject = async (projectData) => {
+  console.log("new project heree!!");
+
+    const { projectName, description, techStack, fundingGoal, image } = projectData;
 
     // Create a new project
     const newProject = new Project({
       projectName,
       description,
       techStack,
-      image,  // Store the image file path
+      image,
+      fundingGoal,
     });
 
     // Save the project to the database
     await newProject.save();
 
-    res.status(201).json({
-      message: 'Project added successfully',
-      project: newProject,
-    });
-  } catch (error) {
-    console.error('Error in addProject:', error.message);  // Log the error
-    res.status(500).json({ message: 'Failed to add project' });
-  }
+    return newProject;
+
 };
 
 // Get all projects
@@ -42,6 +37,7 @@ export const getProjects = async (req, res) => {
 // Get a single project by ID
 export const getProjectById = async (req, res) => {
   try {
+    console.log(req.params.id)
     const projectId = req.params.id;
     const project = await Project.findById(projectId);
     
@@ -57,15 +53,14 @@ export const getProjectById = async (req, res) => {
 };
 
 // Update project details
-export const updateProject = async (req, res) => {
+export const updateProject = async (projectData) => {
   try {
-    const projectId = req.params.id;
-    const { projectName, description, techStack } = req.body;
-    const image = req.file ? req.file.path : null;  // Handle image update if present
+    const projectId = projectData.id;
+    const { projectName, description, techStack, fundingGoal, image } = projectData;
 
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
-      { projectName, description, techStack, image },
+      { projectName, description, techStack, fundingGoal, image,  },
       { new: true }
     );
 
@@ -87,6 +82,8 @@ export const updateProject = async (req, res) => {
 export const deleteProject = async (req, res) => {
   try {
     const projectId = req.params.id;
+
+    console.log("Deleting.. ", projectId);
     
     const deletedProject = await Project.findByIdAndDelete(projectId);
     
@@ -98,5 +95,26 @@ export const deleteProject = async (req, res) => {
   } catch (error) {
     console.error('Error in deleteProject:', error.message); // Log the error
     res.status(500).json({ message: 'Failed to delete project' });
+  }
+};
+
+
+// Update project details
+export const updateProjectAmount = async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    console.log(projectId)
+
+    const project = await Project.findById(projectId);
+
+    project.currentFunding = project.currentFunding + 10;
+
+    project.save()
+    
+    res.status(200).json({ message: 'Project Amount Updated successfully' });
+
+  } catch (error) {
+    console.error('Error in updateProject:', error.message); // Log the error
+    res.status(500).json({ message: 'Failed to update project' });
   }
 };

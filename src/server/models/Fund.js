@@ -1,5 +1,6 @@
 // models/Fund.js
 import mongoose from 'mongoose';
+import { type } from 'os';
 
 const FundSchema = new mongoose.Schema({
   fullName: {
@@ -26,8 +27,12 @@ const FundSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fundamount:{
+    type: Number,
+    required:true,
+  }
 }, {
   timestamps: true,
 });
 
-export default mongoose.model('Fund', FundSchema);
+export default mongoose.model('Fund', FundSchema); 
