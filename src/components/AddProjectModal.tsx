@@ -80,7 +80,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({ isOpen, onClose, onPr
       resetForm();
     } catch (error) {
       console.error('Failed to add project:', error);
-      // Handle error (e.g., show error message to user)
+      
     }
   };
 
